@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <string name="app_name">Vocabulary Flash</string>
+    <string name="create_new_deck">Создать новую колоду</string>
+    <string name="practice_deck_message">У вас %1$d слов для изучения. Давайте начнём!</string>
+    <string name="practice">Практика</string>
+    <string name="practice_description">Описание: %1$s</string>
 </resources>

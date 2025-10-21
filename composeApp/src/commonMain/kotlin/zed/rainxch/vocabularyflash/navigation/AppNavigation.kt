@@ -18,7 +18,14 @@ fun AppNavigation(
         startDestination = VocabularyFlashNavGraph.HomeScreen
     ) {
         composable<VocabularyFlashNavGraph.HomeScreen> {
-            HomeRoot()
+            HomeRoot(
+                onNavigateToPracticeDeck = { deckId ->
+                    navHostController.navigate(VocabularyFlashNavGraph.PracticeDeckScreen(deckId))
+                },
+                onNavigateToCreateNewDeck = {
+                    navHostController.navigate(VocabularyFlashNavGraph.NewDeckScreen)
+                }
+            )
         }
 
         composable<VocabularyFlashNavGraph.PracticeDeckScreen> {

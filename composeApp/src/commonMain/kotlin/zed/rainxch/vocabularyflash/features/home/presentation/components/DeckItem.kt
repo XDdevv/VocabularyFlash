@@ -3,24 +3,14 @@ package zed.rainxch.vocabularyflash.features.home.presentation.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material.icons.automirrored.filled.ArrowRightAlt
-import androidx.compose.material.icons.filled.ArrowCircleRight
-import androidx.compose.material.icons.filled.ArrowRight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
@@ -38,12 +27,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import zed.rainxch.vocabularyflash.core.domain.model.Deck
-import zed.rainxch.vocabularyflash.core.presentation.utils.toDeckColor
+import org.jetbrains.compose.resources.stringResource
+import vocabularyflash.composeapp.generated.resources.Res
+import vocabularyflash.composeapp.generated.resources.practice
+import vocabularyflash.composeapp.generated.resources.practice_deck_message
+import vocabularyflash.composeapp.generated.resources.practice_description
+import zed.rainxch.vocabularyflash.features.home.presentation.models.DeckUi
 
 @Composable
 fun DeckItem(
-    deck: Deck,
+    deck: DeckUi,
     onClick: () -> Unit,
     onLongClick: () -> Unit = { },
     modifier: Modifier = Modifier,
@@ -68,7 +61,7 @@ fun DeckItem(
                         drawContent()
 
                         drawRoundRect(
-                            brush = deck.colorId.toDeckColor(),
+                            brush = deck.color,
                             topLeft = Offset(x = -32f, y = 0f),
                             size = Size(width = 10f, height = size.height),
                             cornerRadius = CornerRadius(50f)
@@ -84,7 +77,7 @@ fun DeckItem(
 
                 deck.description?.let { description ->
                     Text(
-                        text = "Description: $description",
+                        text = stringResource(Res.string.practice_description, deck.description),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
@@ -93,7 +86,7 @@ fun DeckItem(
                 HorizontalDivider(color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .2f))
 
                 Text(
-                    text = "You have ${deck.words.size} words to learn. Lets get into it!",
+                    text = stringResource(Res.string.practice_deck_message, deck.totalWords),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )
@@ -108,7 +101,7 @@ fun DeckItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Practice",
+                    text = stringResource(Res.string.practice),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSecondary
                 )

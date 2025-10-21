@@ -1,6 +1,9 @@
 package zed.rainxch.vocabularyflash.features.home.presentation
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import zed.rainxch.vocabularyflash.features.home.presentation.models.DeckUi
+
 data class HomeState(
-    val paramOne: String = "default",
-    val paramTwo: List<String> = emptyList(),
+    val decks: ImmutableList<DeckUi> = persistentListOf(),
 )
