@@ -3,17 +3,23 @@ package zed.rainxch.vocabularyflash.features.home.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import zed.rainxch.vocabularyflash.core.domain.model.Deck
 import zed.rainxch.vocabularyflash.core.domain.utils.DeckColorsConstants
+import zed.rainxch.vocabularyflash.features.home.domain.repository.HomeRepository
 import zed.rainxch.vocabularyflash.features.home.presentation.mappers.toDeckUi
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val homeRepository: HomeRepository,
+) : ViewModel() {
 
     private var hasLoadedInitialData = false
 
@@ -21,7 +27,7 @@ class HomeViewModel : ViewModel() {
     val state = _state
         .onStart {
             if (!hasLoadedInitialData) {
-                loadSampleData()
+                loadData()
 
                 hasLoadedInitialData = true
             }
@@ -31,6 +37,20 @@ class HomeViewModel : ViewModel() {
             started = SharingStarted.WhileSubscribed(5_000L),
             initialValue = HomeState()
         )
+
+    private fun loadData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            homeRepository.getDecks()
+                .map { decks -> decks.map { deck -> deck.toDeckUi() } }
+                .collect { decks ->
+                    _state.update {
+                        it.copy(
+                            decks = decks.toImmutableList()
+                        )
+                    }
+                }
+        }
+    }
 
     private fun loadSampleData() {
         viewModelScope.launch {
