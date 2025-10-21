@@ -14,15 +14,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
 import vocabularyflash.composeapp.generated.resources.Res
+import vocabularyflash.composeapp.generated.resources.app_name
 import vocabularyflash.composeapp.generated.resources.compose_multiplatform
+import zed.rainxch.vocabularyflash.core.presentation.design_system.theme.AppTheme
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    AppTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
@@ -32,7 +34,7 @@ fun App() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
+                Text(stringResource(Res.string.app_name))
             }
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }
