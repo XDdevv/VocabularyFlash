@@ -1,7 +1,7 @@
 package zed.rainxch.vocabularyflash.core.domain.model
 
 data class Word(
-    val id: Int,
+    val id: Int = 0,
     val word: String,
     val meaning: String,
     val example: String,
