@@ -5,6 +5,8 @@ import zed.rainxch.vocabularyflash.core.domain.model.Word
 sealed interface NewDeckAction {
 
     data object OnBackClick : NewDeckAction
+    data object OnDismissAddWordBottomSheet : NewDeckAction
+    data object OnAddWordFABClick : NewDeckAction
     data class OnNameChange(val name: String) : NewDeckAction
     data class OnDescriptionChange(val description: String) : NewDeckAction
     data class OnColorChange(val colorId: String) : NewDeckAction

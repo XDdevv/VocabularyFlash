@@ -11,8 +11,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import vocabularyflash.composeapp.generated.resources.Res
 import vocabularyflash.composeapp.generated.resources.error_description_required
+import vocabularyflash.composeapp.generated.resources.error_example_required
+import vocabularyflash.composeapp.generated.resources.error_meaning_required
 import vocabularyflash.composeapp.generated.resources.error_minimum_words
 import vocabularyflash.composeapp.generated.resources.error_name_required
+import vocabularyflash.composeapp.generated.resources.error_word_required
 import zed.rainxch.vocabularyflash.core.domain.model.Word
 import zed.rainxch.vocabularyflash.core.presentation.utils.TextUi
 import zed.rainxch.vocabularyflash.features.new_deck.domain.repository.NewDeckRepository
@@ -28,21 +31,33 @@ class NewDeckViewModel(
     fun onAction(action: NewDeckAction) {
         when (action) {
             is NewDeckAction.OnAddedNewWord -> {
-                val words = _state.value.words.toMutableList()
-                _state.value.currentWord.let { word ->
-                    words.add(word)
+                if (validateCurrentWord()) {
+                    val words = _state.value.words.toMutableList()
+                    _state.value.currentWord.let { word ->
+                        words.add(word)
+                    }
+
+                    _state.update {
+                        it.copy(
+                            currentWord = Word(
+                                id = it.currentWord.id + 1,
+                                word = "",
+                                meaning = "",
+                                example = ""
+                            ),
+                            words = words.toImmutableList(),
+                            isNewWordBottomSheetVisible = false
+                        )
+                    }
                 }
-                _state.update {
-                    it.copy(
-                        currentWord = Word(
-                            id = it.currentWord.id + 1,
-                            word = "",
-                            meaning = "",
-                            example = ""
-                        ),
-                        words = words.toImmutableList()
-                    )
-                }
+            }
+
+            NewDeckAction.OnAddWordFABClick -> {
+                _state.update { it.copy(isNewWordBottomSheetVisible = true) }
+            }
+
+            NewDeckAction.OnDismissAddWordBottomSheet -> {
+                _state.update { it.copy(isNewWordBottomSheetVisible = false) }
             }
 
             is NewDeckAction.OnColorChange -> {
@@ -165,6 +180,35 @@ class NewDeckViewModel(
         }
         _state.update { it.copy(errors = errors) }
         return !errors.containsKey("words")
+    }
+
+    private fun validateCurrentWord(): Boolean {
+        val errors = _state.value.errors.toMutableMap()
+        val current = _state.value.currentWord
+
+        if (current.word.isBlank()) {
+            errors["new_word"] = TextUi.Dynamic(Res.string.error_word_required)
+        } else {
+            errors.remove("new_word")
+        }
+
+        if (current.meaning.isBlank()) {
+            errors["new_meaning"] = TextUi.Dynamic(Res.string.error_meaning_required)
+        } else {
+            errors.remove("new_meaning")
+        }
+
+        if (current.example.isBlank()) {
+            errors["new_example"] = TextUi.Dynamic(Res.string.error_example_required)
+        } else {
+            errors.remove("new_example")
+        }
+
+        _state.update { it.copy(errors = errors) }
+
+        return !errors.containsKey("new_word") &&
+                !errors.containsKey("new_meaning") &&
+                !errors.containsKey("new_example")
     }
 
 

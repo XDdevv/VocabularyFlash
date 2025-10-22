@@ -16,4 +16,5 @@ data class NewDeckState(
     val isNavigatingForward: Boolean = true,
     val errors: Map<String, TextUi> = emptyMap(),
     val currentWord: Word = Word(word = "", meaning = "", example = ""),
+    val isNewWordBottomSheetVisible: Boolean = false,
 )

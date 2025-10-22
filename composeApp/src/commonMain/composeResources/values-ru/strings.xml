@@ -43,4 +43,8 @@
     <string name="navigate_back">Назад</string>
 
     <string name="pick_your_favorite_color">Выберите любимый цвет:</string>
+
+    <string name="error_word_required">Введите слово</string>
+    <string name="error_meaning_required">Введите значение</string>
+    <string name="error_example_required">Введите пример</string>
 </resources>

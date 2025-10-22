@@ -23,10 +23,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -54,12 +50,13 @@ fun CreateWordsStep(
     onAction: (NewDeckAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = { showBottomSheet = true },
+                onClick = {
+                    onAction(NewDeckAction.OnAddWordFABClick)
+                },
                 icon = { Icon(Icons.Default.Add, contentDescription = null) },
                 text = {
                     Text(stringResource(Res.string.add_word_button))
@@ -126,9 +123,11 @@ fun CreateWordsStep(
         }
     }
 
-    if (showBottomSheet) {
+    if (state.isNewWordBottomSheetVisible) {
         ModalBottomSheet(
-            onDismissRequest = { showBottomSheet = false },
+            onDismissRequest = {
+                onAction(NewDeckAction.OnDismissAddWordBottomSheet)
+            },
             sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         ) {
             Column(
@@ -147,7 +146,8 @@ fun CreateWordsStep(
                     onValueChange = { onAction(NewDeckAction.OnCurrentWordWordChange(it)) },
                     helper = stringResource(Res.string.add_words_helper_word),
                     placeholder = stringResource(Res.string.add_words_placeholder_word),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    error = state.errors["new_word"]?.toText()
                 )
 
                 VocabularyFlashTextField(
@@ -155,7 +155,8 @@ fun CreateWordsStep(
                     onValueChange = { onAction(NewDeckAction.OnCurrentWordMeaningChange(it)) },
                     helper = stringResource(Res.string.add_words_helper_meaning),
                     placeholder = stringResource(Res.string.add_words_placeholder_meaning),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    error = state.errors["new_meaning"]?.toText()
                 )
 
                 VocabularyFlashTextField(
@@ -164,13 +165,13 @@ fun CreateWordsStep(
                     lines = 4,
                     helper = stringResource(Res.string.add_words_helper_example),
                     placeholder = stringResource(Res.string.add_words_placeholder_example),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    error = state.errors["new_example"]?.toText()
                 )
 
                 Button(
                     onClick = {
                         onAction(NewDeckAction.OnAddedNewWord)
-                        showBottomSheet = false
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
