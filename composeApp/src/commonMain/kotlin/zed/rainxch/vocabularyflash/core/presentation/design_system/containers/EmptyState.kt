@@ -13,12 +13,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmptyState(
     message: String,
     icon: ImageVector = Icons.Default.SearchOff,
+    textStyle: TextStyle = MaterialTheme.typography.headlineLarge,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -35,7 +37,7 @@ fun EmptyState(
 
         Text(
             text = message,
-            style = MaterialTheme.typography.headlineLarge,
+            style = textStyle,
             color = MaterialTheme.colorScheme.onSurface
         )
     }
