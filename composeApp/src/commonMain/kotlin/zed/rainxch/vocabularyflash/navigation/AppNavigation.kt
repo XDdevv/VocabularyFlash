@@ -1,6 +1,5 @@
 package zed.rainxch.vocabularyflash.navigation
 
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -30,25 +29,25 @@ fun AppNavigation(
         enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { it },
-                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+                animationSpec = spring(Spring.DampingRatioLowBouncy)
             ) + fadeIn(animationSpec = tween(300))
         },
         exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -it / 3 },
-                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+                animationSpec = spring(Spring.DampingRatioLowBouncy)
             ) + fadeOut(animationSpec = tween(300))
         },
         popEnterTransition = {
             slideInHorizontally(
                 initialOffsetX = { -it / 3 },
-                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+                animationSpec = spring(Spring.DampingRatioLowBouncy)
             ) + fadeIn(animationSpec = tween(300))
         },
         popExitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { it },
-                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+                animationSpec = spring(Spring.DampingRatioLowBouncy)
             ) + fadeOut(animationSpec = tween(300))
         },
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
