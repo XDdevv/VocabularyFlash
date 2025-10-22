@@ -17,25 +17,32 @@ class NewDeckRepositoryImpl(
         description: String?,
         colorId: String,
         words: List<Word>,
-    ) = withContext(Dispatchers.IO) {
-        val deck = DeckEntity(
-            title = title,
-            description = description,
-            colorId = colorId
-        )
+    ): Result<Unit> {
+        return try {
+            withContext(Dispatchers.IO) {
+                val deck = DeckEntity(
+                    title = title,
+                    description = description,
+                    colorId = colorId
+                )
 
-        val deckId = newDeckDao.insertDeck(deck).toInt()
+                val deckId = newDeckDao.insertDeck(deck).toInt()
 
-        val wordEntities = words.map { word ->
-            WordEntity(
-                deckId = deckId,
-                word = word.word,
-                meaning = word.meaning,
-                example = word.example
-            )
+                val wordEntities = words.map { word ->
+                    WordEntity(
+                        deckId = deckId,
+                        word = word.word,
+                        meaning = word.meaning,
+                        example = word.example
+                    )
+                }
+
+                newDeckDao.insertWords(wordEntities)
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
-
-        newDeckDao.insertWords(wordEntities)
     }
 
 }

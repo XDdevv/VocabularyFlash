@@ -23,14 +23,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -38,6 +43,7 @@ import vocabularyflash.composeapp.generated.resources.Res
 import vocabularyflash.composeapp.generated.resources.create_new_deck
 import vocabularyflash.composeapp.generated.resources.navigate_back
 import zed.rainxch.vocabularyflash.core.presentation.design_system.theme.AppTheme
+import zed.rainxch.vocabularyflash.core.presentation.utils.ObserveAsEvents
 import zed.rainxch.vocabularyflash.features.new_deck.presentation.components.ChooseNameStep
 import zed.rainxch.vocabularyflash.features.new_deck.presentation.components.CompleteStep
 import zed.rainxch.vocabularyflash.features.new_deck.presentation.components.CreateWordsStep
@@ -51,6 +57,22 @@ fun NewDeckRoot(
     viewModel: NewDeckViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            NewDeckEvents.OnDeckCreatedSuccessfully -> {
+                onNavigateBack()
+            }
+
+            is NewDeckEvents.OnDeckCreateFailure -> {
+                scope.launch {
+                    snackbarHostState.showSnackbar(event.message)
+                }
+            }
+        }
+    }
 
     NewDeckScreen(
         state = state,
@@ -60,7 +82,8 @@ fun NewDeckRoot(
 
                 else -> viewModel.onAction(action)
             }
-        }
+        },
+        snackbarHostState = snackbarHostState
     )
 }
 
@@ -69,6 +92,7 @@ fun NewDeckRoot(
 fun NewDeckScreen(
     state: NewDeckState,
     onAction: (NewDeckAction) -> Unit,
+    snackbarHostState: SnackbarHostState,
 ) {
     Scaffold(
         topBar = {
@@ -90,6 +114,9 @@ fun NewDeckScreen(
                     }
                 }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
         },
         modifier = Modifier.safeDrawingPadding()
     ) { innerPadding ->
@@ -183,7 +210,8 @@ private fun Preview() {
     AppTheme {
         NewDeckScreen(
             state = NewDeckState(),
-            onAction = {}
+            onAction = {},
+            snackbarHostState = SnackbarHostState()
         )
     }
 }

@@ -8,5 +8,5 @@ interface NewDeckRepository {
         description: String?,
         colorId: String,
         words: List<Word>
-    )
+    ) : Result<Unit>
 }

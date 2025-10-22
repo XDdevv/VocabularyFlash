@@ -5,8 +5,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import vocabularyflash.composeapp.generated.resources.Res
@@ -27,6 +29,9 @@ class NewDeckViewModel(
 
     private val _state = MutableStateFlow(NewDeckState())
     val state = _state.asStateFlow()
+
+    private val _events = Channel<NewDeckEvents>()
+    val events = _events.receiveAsFlow()
 
     fun onAction(action: NewDeckAction) {
         when (action) {
@@ -95,14 +100,7 @@ class NewDeckViewModel(
                     }
 
                     NewDeckStep.Complete -> {
-                        viewModelScope.launch(Dispatchers.IO) {
-                            repository.createNewDeck(
-                                title = _state.value.name,
-                                description = _state.value.description,
-                                colorId = _state.value.colorId,
-                                words = _state.value.words
-                            )
-                        }
+                        createDeck()
                     }
                 }
             }
@@ -146,6 +144,21 @@ class NewDeckViewModel(
             }
 
             else -> {}
+        }
+    }
+
+    private fun createDeck() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.createNewDeck(
+                title = _state.value.name,
+                description = _state.value.description,
+                colorId = _state.value.colorId,
+                words = _state.value.words
+            ).onSuccess {
+                _events.send(NewDeckEvents.OnDeckCreatedSuccessfully)
+            }.onFailure {
+                _events.send(NewDeckEvents.OnDeckCreateFailure(it.message.toString()))
+            }
         }
     }
 
