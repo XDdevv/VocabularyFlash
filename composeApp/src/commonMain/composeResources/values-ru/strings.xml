@@ -4,5 +4,43 @@
     <string name="create_new_deck">Создать новую колоду</string>
     <string name="practice_deck_message">У вас %1$d слов для изучения. Давайте начнём!</string>
     <string name="practice">Практика</string>
+    <string name="practice_title">Заголовок: %1$s</string>
     <string name="practice_description">Описание: %1$s</string>
+
+    <string name="words_title">Слова</string>
+    <string name="add_new_word_title">Добавить новое слово</string>
+
+    <string name="add_word_button">Добавить слово</string>
+
+    <string name="empty_words_message">Пока нет слов. Нажмите +, чтобы добавить первое!</string>
+
+    <string name="add_words_helper_word">Слово</string>
+    <string name="add_words_helper_meaning">Значение</string>
+    <string name="add_words_helper_example">Пример предложения</string>
+    <string name="add_words_placeholder_word">например: Яблоко</string>
+    <string name="add_words_placeholder_meaning">например: Вид фрукта</string>
+    <string name="add_words_placeholder_example">например: Я ем яблоко каждое утро.</string>
+
+    <string name="deck_name_placeholder">Дайте название колоде (например, Фразы для путешествий, Слова TOEFL)</string>
+    <string name="deck_name_helper">Выберите имя, которое поможет вспомнить, что внутри</string>
+
+    <string name="deck_description_placeholder">Добавьте краткое описание (например, Для поездки в Японию)</string>
+    <string name="deck_description_helper">Опишите, о чём эта колода</string>
+
+    <string name="error_name_required">Введите название колоды</string>
+    <string name="error_description_required">Добавьте описание</string>
+    <string name="error_minimum_words">Необходимо добавить как минимум 3 слова</string>
+
+    <string name="show_less_words">Показать меньше слов</string>
+    <string name="show_all_words">Показать все слова</string>
+
+    <string name="verify_details">Проверьте данные</string>
+
+    <string name="previous">Назад</string>
+    <string name="next">Далее</string>
+    <string name="confirm_create_deck">Подтверждаю, создать колоду.</string>
+
+    <string name="navigate_back">Назад</string>
+
+    <string name="pick_your_favorite_color">Выберите любимый цвет:</string>
 </resources>

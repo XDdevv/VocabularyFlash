@@ -1,6 +1,7 @@
 package zed.rainxch.vocabularyflash.features.home.presentation.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -95,6 +96,7 @@ fun DeckItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clickable(onClick = onClick)
                     .background(MaterialTheme.colorScheme.primary)
                     .padding(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),

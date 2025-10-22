@@ -4,5 +4,43 @@
     <string name="create_new_deck">Create a new deck</string>
     <string name="practice_deck_message">You have %1$d words to learn. Lets get into it!</string>
     <string name="practice">Practice</string>
+    <string name="practice_title">Title: %1$s</string>
     <string name="practice_description">Description: %1$s</string>
+
+    <string name="words_title">Words</string>
+    <string name="add_new_word_title">Add New Word</string>
+
+    <string name="add_word_button">Add Word</string>
+
+    <string name="empty_words_message">No words yet. Tap + to add your first word!</string>
+
+    <string name="add_words_helper_word">Word</string>
+    <string name="add_words_helper_meaning">Meaning</string>
+    <string name="add_words_helper_example">Example sentence</string>
+    <string name="add_words_placeholder_word">e.g. Apple</string>
+    <string name="add_words_placeholder_meaning">e.g. A kind of fruit</string>
+    <string name="add_words_placeholder_example">e.g. I eat an apple every morning.</string>
+
+    <string name="deck_name_placeholder">Name your deck (e.g. Travel phrases, TOEFL vocab)</string>
+    <string name="deck_name_helper">Pick a name that helps you remember what’s inside</string>
+
+    <string name="deck_description_placeholder">Add a short description (e.g. For my trip to Japan)</string>
+    <string name="deck_description_helper">Describe what this deck is about</string>
+
+    <string name="error_name_required">Name is required</string>
+    <string name="error_description_required">Description is required</string>
+    <string name="error_minimum_words">You need to have at least 3 words</string>
+
+    <string name="show_less_words">Show fewer words</string>
+    <string name="show_all_words">Show all words</string>
+
+    <string name="verify_details">Verify details</string>
+
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="confirm_create_deck">I confirm, create deck.</string>
+
+    <string name="navigate_back">Navigate back</string>
+
+    <string name="pick_your_favorite_color">Pick your favorite color:</string>
 </resources>
