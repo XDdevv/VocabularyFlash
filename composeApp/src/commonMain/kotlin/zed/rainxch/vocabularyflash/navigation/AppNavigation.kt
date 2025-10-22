@@ -1,6 +1,17 @@
 package zed.rainxch.vocabularyflash.navigation
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -15,7 +26,32 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = VocabularyFlashNavGraph.HomeScreen
+        startDestination = VocabularyFlashNavGraph.HomeScreen,
+        enterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { it },
+                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+            ) + fadeIn(animationSpec = tween(300))
+        },
+        exitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { -it / 3 },
+                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+            ) + fadeOut(animationSpec = tween(300))
+        },
+        popEnterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { -it / 3 },
+                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+            ) + fadeIn(animationSpec = tween(300))
+        },
+        popExitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { it },
+                animationSpec = spring(Spring.DampingRatioMediumBouncy)
+            ) + fadeOut(animationSpec = tween(300))
+        },
+        modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) {
         composable<VocabularyFlashNavGraph.HomeScreen> {
             HomeRoot(
@@ -33,7 +69,11 @@ fun AppNavigation(
         }
 
         composable<VocabularyFlashNavGraph.NewDeckScreen> {
-            NewDeckRoot()
+            NewDeckRoot(
+                onNavigateBack = {
+                    navHostController.navigateUp()
+                }
+            )
         }
     }
 }
