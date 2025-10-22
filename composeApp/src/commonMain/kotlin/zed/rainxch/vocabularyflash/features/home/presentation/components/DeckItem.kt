@@ -49,7 +49,7 @@ fun DeckItem(
                 onClick = onClick,
                 onLongClick = onLongClick
             )
-            .background(MaterialTheme.colorScheme.primary),
+            .background(MaterialTheme.colorScheme.primaryContainer),
         color = Color.Transparent
     ) {
         Column {
@@ -72,30 +72,30 @@ fun DeckItem(
                 Text(
                     text = deck.title,
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
 
                 deck.description?.let { description ->
                     Text(
                         text = stringResource(Res.string.practice_description, deck.description),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
 
-                HorizontalDivider(color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .2f))
+                HorizontalDivider(color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = .2f))
 
                 Text(
                     text = stringResource(Res.string.practice_deck_message, deck.totalWords),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.secondary)
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically
@@ -103,14 +103,14 @@ fun DeckItem(
                 Text(
                     text = stringResource(Res.string.practice),
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSecondary
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
 
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowRightAlt,
                     contentDescription = "Practice",
                     modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSecondary
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
