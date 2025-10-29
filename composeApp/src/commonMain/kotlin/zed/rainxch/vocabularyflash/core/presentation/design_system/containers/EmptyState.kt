@@ -2,7 +2,9 @@ package zed.rainxch.vocabularyflash.core.presentation.design_system.containers
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.SearchOff
@@ -35,10 +37,11 @@ fun EmptyState(
             tint = MaterialTheme.colorScheme.error
         )
 
+        Spacer(Modifier.height(12.dp))
+
         Text(
             text = message,
             style = textStyle,
-            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }

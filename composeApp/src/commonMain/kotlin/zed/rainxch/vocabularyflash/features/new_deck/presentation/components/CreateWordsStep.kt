@@ -100,7 +100,9 @@ fun CreateWordsStep(
                     EmptyState(
                         message = stringResource(Res.string.empty_words_message),
                         icon = Icons.AutoMirrored.Filled.ListAlt,
-                        textStyle = MaterialTheme.typography.titleLarge,
+                        textStyle = MaterialTheme.typography.titleLarge.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 48.dp)
